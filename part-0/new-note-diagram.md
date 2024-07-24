@@ -3,10 +3,19 @@ sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: URL redirect
+    deactivate server
+
+    Note right of browser: With URL redirect, server asks the browser to perform new HTTP get request to the address which is defined in the header's - "notes".
+
+    browser->>server: https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
+
+     Note right of browser: Notes page reloads and causes 3 more HTTP GET requests.
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
